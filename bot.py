@@ -4,7 +4,7 @@ import discord
 #from dotenv import load_dotenv
 
 #load_dotenv()
-TOKEN = "MTA3NjYyNjAxMjM5NTI3NDI2MA.GmqziV.11O5vujZB2OQPQu1feL-XZTwsizMJRezJrdnJA"
+TOKEN = ""
 GUILD = "1076626797061488640"
 
 
@@ -23,18 +23,38 @@ async def on_member_join(member):
         f'Hi {member.name}, welcome to my Discord server!'
     )
 
+"""def format(threadMessages):
+    for i in range(threadMessages):
+        if i == 0:
+            prepend with Q:
+        else if i%2 == 0:
+            prepend with A:
+        else prepend with Q:
+    
+    return
+
+    return Q/A format
+def deal(message, thread):
+
+    formattedThread = format(thread)
+    # response = make a get request, with parameter formattedThread
+    response = formattedThread
+    return response"""
+
 @client.event
 async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content == '!query' and message.channel.name == 'general':
+    if message.content.startswith('!query') and message.channel.name == 'general':
         print(message)
         print("channel")
         #https://stackoverflow.com/questions/71797750/how-to-send-message-in-a-discord-thread
         thread = await message.channel.create_thread(name="Thread" , type=discord.ChannelType.public_thread )
         await thread.send("This message is sent to the created thread!")
-    elif message.content == '!query' and message.channel.name != 'general':
+        #deal(message, thread_messages)
+    elif message.content.startswith('!query') and message.channel.name != 'general':
+        print(message)
         print("thread")
         thread_id = message.channel.id
         thread = message.guild.get_thread(thread_id)
