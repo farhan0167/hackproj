@@ -4,7 +4,7 @@ import discord
 #from dotenv import load_dotenv
 
 #load_dotenv()
-TOKEN = "MTA3NjYyNjAxMjM5NTI3NDI2MA.G5EyU6.RBj6Ykm1AbyJmxnrS7RuF4edcD7ZIMx_YbHt0M"
+TOKEN = "MTA3NjYyNjAxMjM5NTI3NDI2MA.GmqziV.11O5vujZB2OQPQu1feL-XZTwsizMJRezJrdnJA"
 GUILD = "1076626797061488640"
 
 
@@ -28,9 +28,33 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content == '!query':
+    if message.content == '!query' and message.channel.name == 'general':
+        print(message)
+        print("channel")
         #https://stackoverflow.com/questions/71797750/how-to-send-message-in-a-discord-thread
         thread = await message.channel.create_thread(name="Thread" , type=discord.ChannelType.public_thread )
         await thread.send("This message is sent to the created thread!")
+    elif message.content == '!query' and message.channel.name != 'general':
+        print("thread")
+        thread_id = message.channel.id
+        thread = message.guild.get_thread(thread_id)
+        msg = "Message within a thread"
+        await thread.send("This message is sent within the thread!")
+            
 
 client.run(TOKEN)
+
+
+"""
+<Message id=1076648261777105017 channel=<TextChannel id=1076626797061488644 name='general' position=0 
+nsfw=False news=False category_id=1076626797061488641> type=<MessageType.default: 0> author=<Member 
+id=881987116635160596 name='fenderbender' discriminator='5706' bot=False nick=None guild=<Guild 
+id=1076626797061488640 name="fenderbender's server" shard_id=0 chunked=False member_count=3>> 
+flags=<MessageFlags value=0>>
+
+<Message id=1076648320505745448 channel=<Thread id=1076648262217502782 name='Thread' parent=general 
+owner_id=1076626012395274260 locked=False archived=False> type=<MessageType.default: 0> 
+author=<Member id=881987116635160596 name='fenderbender' discriminator='5706' bot=False 
+nick=None guild=<Guild id=1076626797061488640 name="fenderbender's server" shard_id=0 
+chunked=False member_count=3>> flags=<MessageFlags value=0>>
+"""
